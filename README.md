@@ -118,6 +118,32 @@ Key bindings:
 - `M-p` and `M-n` cycle prompt history while point is in the active prompt.
 - `TAB` and `S-TAB` move between clickable buttons and file links.
 
+### Global approval and idle counts
+
+Enable `codex-ide-global-status-mode` to show `Appr[n]` and `Idle[n]` in every
+mode line across workspaces. Zero counts are hidden. `Appr[n]` counts unresolved
+approval and input requests; `Idle[n]` counts live chats ready for input, including
+chats whose answers you have already read. Background query sessions are excluded.
+The idle count uses bold text with your normal mode-line colors; customize
+`codex-ide-global-status-idle-face` to change its appearance.
+
+Click a count to visit a pending request or idle chat. `codex-ide-visit-ready`
+visits the oldest pending request first, otherwise an idle chat, asking which
+chat when several are idle. Repeat the command to return to your previous buffer
+and point, even after an approval is resolved. The main menu exposes this command
+under `v`. You can also use `codex-ide-review-request` or `codex-ide-visit-idle`
+separately.
+
+The mode is disabled by default and installs no keyboard bindings. For example:
+
+```emacs-lisp
+(codex-ide-global-status-mode 1)
+(global-set-key (kbd "C-c x v") #'codex-ide-visit-ready)
+```
+
+Disabling the mode removes its mode-line entry, event hook, and saved return
+location. It does not change the approval notification or window-display settings.
+
 ### Session diff buffer
 
 Codex IDE can show a canonical diff buffer for each session. Open it with

@@ -656,6 +656,51 @@ interval as the default.  Active loops are rescheduled from now.
 (register-definition-prefixes "codex-ide-loop" '("codex-ide-loop-"))
 
 
+;;; Generated autoloads from codex-ide-global-status.el
+
+(autoload 'codex-ide-review-request "codex-ide-global-status"
+"Visit the oldest pending Codex request, or return to the previous buffer." t)
+(autoload 'codex-ide-visit-idle "codex-ide-global-status"
+"Visit an idle Codex chat, or return to the previous buffer." t)
+(autoload 'codex-ide-visit-ready "codex-ide-global-status"
+"Visit a pending request first, otherwise an idle chat, or return.
+When already in a chat visited by these commands, restore the previous
+buffer and point even if the request was resolved or its status changed." t)
+(defvar codex-ide-global-status-mode nil
+"Non-nil if Codex-Ide-Global-Status mode is enabled.
+See the `codex-ide-global-status-mode' command
+for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `codex-ide-global-status-mode'.")
+(custom-autoload 'codex-ide-global-status-mode "codex-ide-global-status" nil)
+(autoload 'codex-ide-global-status-mode "codex-ide-global-status"
+"Show pending request and idle chat counts in every mode line.
+
+Counts cover all live chats across workspaces.  Zero counts are hidden.
+Idle includes all chats ready for input, including previously read chats.
+Click either count to visit a chat; repeat to return.  This global mode
+does not install any keyboard bindings or change notification settings.
+
+This is a global minor mode.  If called interactively, toggle the
+`Codex-Ide-Global-Status mode' mode.  If the prefix argument is
+positive, enable the mode, and if it is zero or negative, disable the
+mode.
+
+If called from Lisp, toggle the mode if ARG is `toggle'.  Enable the
+mode if ARG is nil, omitted, or is a positive number.  Disable the mode
+if ARG is a negative number.
+
+To check whether the minor mode is enabled in the current buffer,
+evaluate `(default-value \\='codex-ide-global-status-mode)'.
+
+The mode's hook is called both when the mode is enabled and when it is
+disabled.
+
+(fn &optional ARG)" t)
+(register-definition-prefixes "codex-ide-global-status" '("codex-ide-global-status--"))
+
+
 ;;; End of scraped data
 
 (provide 'codex-ide-autoloads)

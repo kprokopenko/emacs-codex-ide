@@ -467,6 +467,7 @@
 			  ["Manage"
 			   ("m" "Manage sessions" codex-ide-status)
 			   ("l" "Live session buffers" codex-ide-session-buffer-list)
+			   ("v" "Visit approval / idle / return" codex-ide-visit-ready)
 			   ("D" "Session diff (live/transcript/pinned)" codex-ide-session-diff-open)]
 			  ["Submenus"
 			   ("C" "Agent configuration" codex-ide-agent-config-menu)

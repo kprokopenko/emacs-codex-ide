@@ -322,6 +322,7 @@ thread-list limit."
 (require 'codex-ide-usage)
 (require 'codex-ide-transcript)
 (require 'codex-ide-images)
+(require 'codex-ide-global-status)
 (require 'codex-ide-transient)
 (require 'codex-ide-mcp-bridge)
 (require 'codex-ide-session)
