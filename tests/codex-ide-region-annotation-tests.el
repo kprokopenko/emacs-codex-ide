@@ -95,6 +95,46 @@
             (should (string-prefix-p "Review these changes\n\n" draft))
             (should (string-match-p "Check alpha" draft))))))))
 
+(ert-deftest codex-ide-region-annotation-keeps-session-window-position ()
+  (let ((project-dir (codex-ide-test--make-temp-project)))
+    (codex-ide-test-with-fixture project-dir
+      (codex-ide-test-with-fake-processes
+        (let* ((transient-mark-mode t)
+               (session (codex-ide--create-process-session))
+               (buffer (codex-ide-session-buffer session))
+               (window (selected-window)))
+          (setf (codex-ide-session-status session) "idle")
+          (with-current-buffer buffer
+            (let ((inhibit-read-only t))
+              (goto-char (point-min))
+              (insert (mapconcat (lambda (n) (format "Transcript line %d" n))
+                                 (number-sequence 1 80) "\n") "\n"))
+            (codex-ide--insert-input-prompt session "Existing draft"))
+          (set-window-buffer window buffer)
+          (cl-letf (((symbol-function 'read-from-minibuffer)
+                     (lambda (&rest _) "Check this line"))
+                    ((symbol-function 'codex-ide--ensure-session-for-current-project)
+                     (lambda () session)))
+            (with-selected-window window
+              (goto-char (point-min))
+              (forward-line 18)
+              (let ((start (point)))
+                (push-mark start t t)
+                (forward-char 15)
+                (activate-mark)
+                (let ((original-point (point))
+                      (original-start (save-excursion
+                                        (goto-char (point-min))
+                                        (forward-line 10)
+                                        (point))))
+                  (set-window-start window original-start t)
+                  (codex-ide-annotate-region)
+                  (should (= (point) original-point))
+                  (should (= (window-start window) original-start))
+                  (should (string-match-p
+                           "Check this line"
+                           (codex-ide--current-input session))))))))))))
+
 (ert-deftest codex-ide-region-annotation-requires-active-selection ()
   (with-temp-buffer
     (insert "alpha")

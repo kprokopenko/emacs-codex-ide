@@ -7019,14 +7019,15 @@ The draft is not submitted; use `codex-ide-submit' when it is ready."
                       (alist-get 'end-column region)
                       note selection)))
         (with-current-buffer (codex-ide-session-buffer session)
-          (codex-ide--ensure-input-prompt session)
-          (unless (codex-ide--input-prompt-active-p session)
-            (user-error "No editable Codex prompt is available"))
-          (let ((draft (codex-ide--current-input session)))
-            (codex-ide--replace-current-input
-             session
-             (concat (unless (string-empty-p draft) (concat draft "\n\n"))
-                     annotation))))
+          (save-excursion
+            (codex-ide--ensure-input-prompt session)
+            (unless (codex-ide--input-prompt-active-p session)
+              (user-error "No editable Codex prompt is available"))
+            (let ((draft (codex-ide--current-input session)))
+              (codex-ide--replace-current-input
+               session
+               (concat (unless (string-empty-p draft) (concat draft "\n\n"))
+                       annotation)))))
         (message "Annotation added; open the session buffer and press C-c RET to send")))))
 
 ;;;###autoload
