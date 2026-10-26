@@ -6874,7 +6874,8 @@ the mismatch warning only reflects meaningful behavior changes."
 
 (defun codex-ide--item-reports-turn-config-p (item)
   "Return non-nil when ITEM fields describe the parent turn config."
-  (not (equal (alist-get 'type item) "collabAgentToolCall")))
+  (not (member (alist-get 'type item)
+               '("collabAgentToolCall" "subAgentActivity"))))
 
 (defun codex-ide--format-turn-config-mismatches (mismatches)
   "Return a compact user-facing string for config MISMATCHES."
